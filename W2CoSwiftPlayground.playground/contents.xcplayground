@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<playground version='6.0' target-platform='ios'>
+<playground version='6.0' target-platform='ios' display-mode='rendered' timelineScrubberEnabled='true'>
     <pages>
         <page name='SwiftApperentice'/>
-        <page name='SwiftProgrammingLanguage-Enum'/>
-        <page name='SwiftProgrammingLanguage-Classes'/>
+        <page name='ASPL-Enum'/>
+        <page name='ASPL-Class'/>
+        <page name='ASPL-Subscript,Inheritance'/>
     </pages>
 </playground>

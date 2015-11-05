@@ -29,7 +29,10 @@ class PositionClass {
 }
 
 let pos1 = PositionStruct(x:10.0, y:10.0)
-// let pos2 = PositionClass(x:10.0, y:10.0) // cannot initialize this
+
+let pos2 = PositionClass() // cannot initialize this
+pos2.x = 10
+pos2.y = 20
 
 // Structures and Enumerations are Value Types like Int, Double. copied when they are passed around.
 
@@ -53,7 +56,7 @@ var pt2 = Point(x: 10, y:20)
 
 
 // ** Stored property & Computed property
-// computed = ?
+// computed = lazy
 
 struct Circle {
     var center = Point()
@@ -62,16 +65,21 @@ struct Circle {
         get {
             return M_PI * (radius/2) * (radius/2)
         }
+        set(new) {
+            
+        }
     }
     var length:Double {
         return M_PI * radius
+    }
+    func mutate() {
+        print("선언할수있어 돼지야")
     }
 }
 
 var c1 = Circle(center: Point(x: 10, y: 10), radius: 3.0)
 c1.radius = 10.0
 c1.area
-c1.length
 
 /*
 // computed property must have an explicit type. why?
@@ -91,6 +99,7 @@ var cached:String {
         }
         return "Stored"
     }
+
 }
 
 // 'Type Property'
@@ -112,14 +121,16 @@ SomeEnum.computed
 SomeEnum.stored
 SomeEnum.stored = 2048
 
-/*
+
 // 'Class Computed Property' for overriding
 
 // class stored property is not yet supported
 class SomeClass{
-    class var overrideableTypeProperty = 10;
+    class var overrideableTypeProperty:Int {
+        return 1;
+    }
 }
-*/
+
 
 
 // Methods
@@ -131,17 +142,15 @@ class SomeClass{
 //    = self is not mutable
 //    mutating
 
-/*
+
 struct MovablePoint1 {
     var x = 0.0, y = 0.0
-    func moveByX(deltaX: Double, deltaY:Double) {
+    mutating func moveByX(deltaX: Double, deltaY:Double) {
         x += deltaX
         y += deltaY
     }
 }
 
-
-*/
 
 struct MovablePoint2 {
     var x = 0.0, y = 0.0
@@ -150,8 +159,26 @@ struct MovablePoint2 {
     }
 }
 
+// set, get, didSet, willSet is (only) for computed property (...)
 
+class Circle2 {
+    var center:Point = Point(x: 0.0, y: 0.0)
+    var radius:Double = 0.0 {
+        didSet {
+            self.diameter = radius * 2.0
+        }
+    }
+    
+    var diameter:Double = 0.0 {
+        didSet {
+            self.radius = diameter / 2.0
+        }
+    }
+}
 
+var c2 = Circle2()
+c2.center = Point(x:10.0, y:10.0)
+// c2.radius = 10.0 //infinite loop begins;;;
 
 
 
