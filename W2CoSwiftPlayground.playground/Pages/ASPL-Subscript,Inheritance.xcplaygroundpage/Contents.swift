@@ -274,6 +274,100 @@ super3.stored_property02 = 30
 // preventing override using FINAL
 
 // initializers
+// default value를 활용하건 어쩌건 모든 멤버의 초기화를 보장할 것
+
+// 변수명을 명시적으로 선언할 것인가
+// optional type은 자동으로 nil로 초기화
+
+class SurveyQuestion {
+
+    let question:String
+    var answer:String?
+    init (_ question:String) {
+        // initializer 내부에서는 각종 '초기'값을 설정할 수 있다
+        // constant stored property 값들도 포함된다.
+        // 단, default value로 미리 할당되지 않아야 한다.
+        
+        self.question = question
+    }
+    func ask() {
+        print(question)
+    }
+}
+
+let q = SurveyQuestion("얼마나 늦을 것인가")
+q.question
+q.answer = "한시간"
+q.ask()
+
+// Default Initializer
+
+// class: ()
+// struct: memberwise initializers
+struct Size {
+    var width: Double
+    var height: Double
+}
+var size = Size(width: 10.0, height: 10.0)
+
+
+// Designated Initializer, Convenience Initializer
+// convenience initializer는 self를 조작할 수 있다
+
+// 기본적으로 initializer는 상속은 다음의 경우에만 일어난다
+// 1. Subclass가 designated를 구현하지 않으면, super의 designated 구성요소를 모두 가지고 온다
+// 2. 모든 designated를 구현하면, super의 convenience init도 물려받는다
+
+class Super4 {
+    let property01:Int
+    init ( _ property01:Int) {
+        self.property01 = property01
+    }
+    
+    /*
+    init( _ property01:Int, _ property02:Int) {
+        // self.init(property01 + property02)
+        // desigated initializer는 self 생성 이전이기에, 
+        // self를 사용하려면 convenience를 사용해야 한다
+        self.property01 = property01 + property02
+    }
+    */
+    
+    convenience init () {
+        self.init(0)
+    }
+}
+
+class Subclass4:Super4 {
+    override init ( _ property01:Int) {
+        // 다른 클래스이기에 property01에 대한 access 불가
+        super.init(property01 + 1);
+    }
+    
+    // convenience는 self 생성 후
+    convenience init () { // 그래도 부모에게서 물려받았는데 왜, 
+                          // override가 필요없는가?
+        self.init(1)
+        print("overrided convenience initialization")
+    }
+}
+
+let sub1 = Subclass4(10)
+let sub2 = Subclass4()
+sub2.property01
+
+// Failable Initializers: init?
+
+// Failable Initializers for Enum
+
+// init!
+
+
+
+
+
+
+
 
 
 
