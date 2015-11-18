@@ -314,9 +314,10 @@ var size = Size(width: 10.0, height: 10.0)
 // Designated Initializer, Convenience Initializer
 // convenience initializer는 self를 조작할 수 있다
 
-// 기본적으로 initializer는 상속은 다음의 경우에만 일어난다
-// 1. Subclass가 designated를 구현하지 않으면, super의 designated 구성요소를 모두 가지고 온다
-// 2. 모든 designated를 구현하면, super의 convenience init도 물려받는다
+// 기본적으로 initializer 상속은 다음의 경우에만 일어난다
+//
+// 1. Subclass가 designated initializer를 전혀 구현하지 않으면, super의 designated 구성요소를 모두 가지고 온다
+// 2. Subclass가 모든 designated initializer 를 구현하면(1의 경우 포함), super의 convenience initializer도 물려받는다. 즉, designated initializer를 구현하거나, 물려받아 모두 갖추면 convenience initializer에 대한 상속권한이 생긴다.
 
 class Super4 {
     let property01:Int
@@ -358,9 +359,41 @@ sub2.property01
 
 // Failable Initializers: init?
 
+class StringValue {
+    var value:String = ""
+
+    // 질문: String은 nil이 될 수 있을까 없을까?
+    /*
+    init?(value:String) {
+        if (value == nil) { return nil; }
+
+    }
+    */
+    
+    init?(_ value:String?) {
+        // 모든 stored properties는 nil을 반환하기 전 초기화되어 있어야 한다.
+        if (value == nil || value!.isEmpty) {
+            return nil;
+        }
+        self.value = value!;
+    }
+}
+
+// 다음 string의 type 추론 결과는?
+let string = StringValue(nil)
+
+// Failable Initializer의 핵심에는 type 추론이 있다.
+
+
 // Failable Initializers for Enum
 
-// init!
+// override failable initializers
+// - override failable initializer with non-failable initializer
+// - 부모로 쓴다고 가정하는게 중요
+
+// init
+
+
 
 
 
